@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { creaMiembroPorDefecto, Miembro } from "./modelo";
 import { getMiembroId } from "./miembro-api";
-import { Layout } from "../layout";
+import { Layout } from "../../layout";
 
 export const MiembroDetalle: React.FC = () => {
   const { id } = useParams();

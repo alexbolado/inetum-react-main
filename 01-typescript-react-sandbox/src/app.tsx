@@ -1,3 +1,4 @@
+import { MiContextoProvider } from "./contexto";
 import { Rutas } from "./rutas";
 
 /* interface Usuario {
@@ -43,7 +44,9 @@ export const App = () => {
         nombreInicial={nombre}
         onActualizarNombre={handleActualizarNombre}
       /> */}
-      <Rutas />
+      <MiContextoProvider>
+        <Rutas />
+      </MiContextoProvider>
     </>
   );
 };
