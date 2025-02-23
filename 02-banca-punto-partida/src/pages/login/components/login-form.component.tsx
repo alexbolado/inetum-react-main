@@ -1,5 +1,12 @@
 import React from "react";
-import { createEmptyCredentials, Credentials } from "../login.vm";
+import {
+  createEmptyCredentials,
+  createEmptyCredentialsFormErrors,
+  Credentials,
+  CredentialsFormErrors,
+} from "../login.vm";
+import { validateForm } from "../login.validation";
+import classes from "./login-form.component.module.css";
 
 interface Props {
   onLogin: (credentials: Credentials) => void;
@@ -7,12 +14,19 @@ interface Props {
 
 export const LoginFormComponent: React.FC<Props> = (props) => {
   const { onLogin } = props;
+  const [errors, setErrors] = React.useState<CredentialsFormErrors>(
+    createEmptyCredentialsFormErrors()
+  );
   const [credentials, setCredentials] = React.useState<Credentials>(
     createEmptyCredentials()
   );
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onLogin(credentials);
+    const validationResult = validateForm(credentials);
+    setErrors(validationResult.errors);
+    if (validationResult.succeeded) {
+      onLogin(credentials);
+    }
   };
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +38,7 @@ export const LoginFormComponent: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={classes.form}>
         <div>
           <label htmlFor="username">Usuario</label>
           <input
@@ -33,18 +46,27 @@ export const LoginFormComponent: React.FC<Props> = (props) => {
             id="username"
             name="user"
             onChange={handleFieldChange}
+            placeholder="Usuario"
+            className={errors.user ? classes.inputError : ""}
           />
+          {errors.user && <p className={classes.error}> {errors.user}</p>}
         </div>
         <div>
           <label htmlFor="password">Clave</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Contraseña"
             name="password"
             onChange={handleFieldChange}
+            className={errors.password ? classes.inputError : ""}
           />
+          {errors.password && (
+            <p className={classes.error}>{errors.password}</p>
+          )}
         </div>
-        <button type="submit">Acceder</button>
+        <button type="submit" className={classes.btnEnviar}>
+          Acceder
+        </button>
       </form>
     </div>
   );
