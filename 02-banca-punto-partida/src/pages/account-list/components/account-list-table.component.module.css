@@ -1,0 +1,13 @@
+.grid-table {
+    min-width: 800px;
+}
+.grid-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.header-table {
+  display: grid;
+  grid-template-columns: 30% 12% repeat(2, 17%) 1fr;
+  gap: 1px;
+}

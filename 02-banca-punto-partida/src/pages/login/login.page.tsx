@@ -6,14 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { appRoutes } from "@/core/router";
 import { LoginFormComponent } from "./components";
 import classes from "./login.page.module.css";
+import { useProfileContext } from "@/core/profile";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const { setUserProfile } = useProfileContext();
 
   const doLogin = async (credentials: Credentials) => {
     const apiCredentials = mapCredentialsFromVmToApi(credentials);
     const isValid = await isValidLogin(apiCredentials);
     if (isValid) {
+      setUserProfile(credentials.user);
       navigate(appRoutes.accountList);
     } else {
       alert("Login failed");
