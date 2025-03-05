@@ -1,30 +1,22 @@
 import { AppLayout } from "@/layouts";
-import { AccountVM } from "./account-list.vm";
-import React from "react";
+
+import React, { useEffect } from "react";
 import classes from "./account-list.page.module.css";
 import { AccountListTableComponent } from "./components";
+import { AccountVM } from "../account";
+import { getAccountList } from "./api";
 
-const mockAccounts: AccountVM[] = [
-  {
-    id: "1",
-    iban: "ES123456789",
-    name: "Personal Account",
-    balance: "1490",
-    lastTransaction: new Date("2019-12-09T21:30:00"),
-  },
-  {
-    id: "2",
-    iban: "ES987654321",
-    name: "Shared Account",
-    balance: "2480",
-    lastTransaction: new Date("2019-11-21T21:30:00"),
-  },
-];
 export const AccountListPage: React.FC = () => {
   const [accountList, setAccountList] = React.useState<AccountVM[]>([]);
 
-  React.useEffect(() => {
-    setAccountList(mockAccounts);
+  const fetchAccounts = async () => {
+    const accounts = await getAccountList();
+    setAccountList(accounts);
+
+    console.log(accounts);
+  };
+  useEffect(() => {
+    fetchAccounts();
   }, []);
   return (
     <AppLayout>

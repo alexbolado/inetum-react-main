@@ -1,4 +1,4 @@
-import { AccountVM } from "../account-list.vm";
+import { AccountVM } from "../../account/account.vm";
 import classes from "./account-list-table.component.module.css";
 
 interface Props {
@@ -17,15 +17,18 @@ export const AccountListTableComponent: React.FC<Props> = (props) => {
             <span className={classes.headerCell}>SALDO DISPONIBLE</span>
             <span className={classes.headerCell}>ÚLTIMA OPERACIÓN</span>
             <span className={classes.headerCell}>OPERACIÓN</span>
-            {accountList.map((account) => (
-              <div key={account.id}>
-                <div>{account.name}</div>
-                <div>{account.iban}</div>
-                <div>{account.balance}</div>
-                <div>{account.lastTransaction.toDateString()}</div>
-              </div>
-            ))}
           </div>
+          {accountList.map((account) => (
+            <div key={account.id} className={classes.rowTable}>
+              <span className={classes.cellTable}>{account.iban}</span>
+              <span className={classes.cellTable}>{account.name}</span>
+              <span className={classes.cellTable}>{account.balance}</span>
+              <span className={classes.cellTable}>
+                {account.lastTransaction}
+              </span>
+              <span className={classes.cellTable}>AQUI VA COMBO</span>
+            </div>
+          ))}
         </div>
       </div>
     </>
